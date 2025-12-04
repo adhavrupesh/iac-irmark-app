@@ -25,6 +25,12 @@ jobs:
       - name: 📦 Checkout Code
         uses: actions/checkout@v4
 
+      # --- NEW STEP TO CALCULATE CACHE KEY ---
+      - name: Calculate Maven Cache Key
+        id: cache-key-step # Assign an ID to reference its output
+        run: echo "MAVEN_KEY=$(echo ${{ hashFiles('**/pom.xml') }} | xargs)" >> $GITHUB_OUTPUT 
+      # --------------------------------------
+
       # --- Build and Setup Environment ---
 
       - name: ☕ Set up Java JDK
