@@ -1,0 +1,48 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200": {
+      "displayName": "IRMarkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider Code",
+      "source": {
+        "path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region-2561d6a5": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "d20eb194fddeb53aa487565c05cbaca99b41089f6b382b76e83421e1666baeab": {
+      "displayName": "IRMarkStack Template",
+      "source": {
+        "path": "IRMarkStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region-e2463dd5": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "d20eb194fddeb53aa487565c05cbaca99b41089f6b382b76e83421e1666baeab.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {
+    "d7c4e3612ac8f1030ef0d1690a0cb70276ae714712875ec0eec9c04379db44fb": {
+      "displayName": "IRMarkTaskDefinition/AppContainer/AssetImage",
+      "source": {
+        "directory": "asset.d7c4e3612ac8f1030ef0d1690a0cb70276ae714712875ec0eec9c04379db44fb"
+      },
+      "destinations": {
+        "current_account-current_region-08a7c0d0": {
+          "repositoryName": "cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}",
+          "imageTag": "d7c4e3612ac8f1030ef0d1690a0cb70276ae714712875ec0eec9c04379db44fb",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-image-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1166 @@
+{
+ "Resources": {
+  "IRMarkVpc24F6BDC1": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/Resource"
+   }
+  },
+  "IRMarkVpcPublicSubnet1Subnet71AD6300": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.0.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet1/Subnet"
+   }
+  },
+  "IRMarkVpcPublicSubnet1RouteTable738BA92F": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet1/RouteTable"
+   }
+  },
+  "IRMarkVpcPublicSubnet1RouteTableAssociationF94CB3F1": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "IRMarkVpcPublicSubnet1RouteTable738BA92F"
+    },
+    "SubnetId": {
+     "Ref": "IRMarkVpcPublicSubnet1Subnet71AD6300"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "IRMarkVpcPublicSubnet1DefaultRouteF45BC18D": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "IRMarkVpcIGWB88995DF"
+    },
+    "RouteTableId": {
+     "Ref": "IRMarkVpcPublicSubnet1RouteTable738BA92F"
+    }
+   },
+   "DependsOn": [
+    "IRMarkVpcVPCGW07A8ACB4"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "IRMarkVpcPublicSubnet1EIPF118E34D": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet1/EIP"
+   }
+  },
+  "IRMarkVpcPublicSubnet1NATGateway7C18D24C": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "IRMarkVpcPublicSubnet1EIPF118E34D",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "IRMarkVpcPublicSubnet1Subnet71AD6300"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "IRMarkVpcPublicSubnet1DefaultRouteF45BC18D",
+    "IRMarkVpcPublicSubnet1RouteTableAssociationF94CB3F1"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet1/NATGateway"
+   }
+  },
+  "IRMarkVpcPublicSubnet2Subnet3BE652CB": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.64.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet2/Subnet"
+   }
+  },
+  "IRMarkVpcPublicSubnet2RouteTableEBB9E828": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet2/RouteTable"
+   }
+  },
+  "IRMarkVpcPublicSubnet2RouteTableAssociation9E548CE3": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "IRMarkVpcPublicSubnet2RouteTableEBB9E828"
+    },
+    "SubnetId": {
+     "Ref": "IRMarkVpcPublicSubnet2Subnet3BE652CB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "IRMarkVpcPublicSubnet2DefaultRoute93943D4B": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "IRMarkVpcIGWB88995DF"
+    },
+    "RouteTableId": {
+     "Ref": "IRMarkVpcPublicSubnet2RouteTableEBB9E828"
+    }
+   },
+   "DependsOn": [
+    "IRMarkVpcVPCGW07A8ACB4"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "IRMarkVpcPublicSubnet2EIPDE46E879": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PublicSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet2/EIP"
+   }
+  },
+  "IRMarkVpcPublicSubnet2NATGateway19389929": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "IRMarkVpcPublicSubnet2EIPDE46E879",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "IRMarkVpcPublicSubnet2Subnet3BE652CB"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PublicSubnet2"
+     }
+    ]
+   },
+   "DependsOn": [
+    "IRMarkVpcPublicSubnet2DefaultRoute93943D4B",
+    "IRMarkVpcPublicSubnet2RouteTableAssociation9E548CE3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PublicSubnet2/NATGateway"
+   }
+  },
+  "IRMarkVpcPrivateSubnet1SubnetA0721160": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.128.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PrivateSubnet1/Subnet"
+   }
+  },
+  "IRMarkVpcPrivateSubnet1RouteTableA93C906E": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PrivateSubnet1/RouteTable"
+   }
+  },
+  "IRMarkVpcPrivateSubnet1RouteTableAssociationA7DB4AEA": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "IRMarkVpcPrivateSubnet1RouteTableA93C906E"
+    },
+    "SubnetId": {
+     "Ref": "IRMarkVpcPrivateSubnet1SubnetA0721160"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "IRMarkVpcPrivateSubnet1DefaultRouteEF499807": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "IRMarkVpcPublicSubnet1NATGateway7C18D24C"
+    },
+    "RouteTableId": {
+     "Ref": "IRMarkVpcPrivateSubnet1RouteTableA93C906E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "IRMarkVpcPrivateSubnet2SubnetD87EAE8C": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.192.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PrivateSubnet2/Subnet"
+   }
+  },
+  "IRMarkVpcPrivateSubnet2RouteTable354A59F0": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PrivateSubnet2/RouteTable"
+   }
+  },
+  "IRMarkVpcPrivateSubnet2RouteTableAssociation2BCF71E8": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "IRMarkVpcPrivateSubnet2RouteTable354A59F0"
+    },
+    "SubnetId": {
+     "Ref": "IRMarkVpcPrivateSubnet2SubnetD87EAE8C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "IRMarkVpcPrivateSubnet2DefaultRouteA9A6241E": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "IRMarkVpcPublicSubnet2NATGateway19389929"
+    },
+    "RouteTableId": {
+     "Ref": "IRMarkVpcPrivateSubnet2RouteTable354A59F0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "IRMarkVpcIGWB88995DF": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "IRMarkStack/IRMarkVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/IGW"
+   }
+  },
+  "IRMarkVpcVPCGW07A8ACB4": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "IRMarkVpcIGWB88995DF"
+    },
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/VPCGW"
+   }
+  },
+  "IRMarkVpcRestrictDefaultSecurityGroupCustomResourceC564934E": {
+   "Type": "Custom::VpcRestrictDefaultSG",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+      "Arn"
+     ]
+    },
+    "DefaultSecurityGroupId": {
+     "Fn::GetAtt": [
+      "IRMarkVpc24F6BDC1",
+      "DefaultSecurityGroup"
+     ]
+    },
+    "Account": {
+     "Ref": "AWS::AccountId"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkVpc/RestrictDefaultSecurityGroupCustomResource/Default"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:",
+             {
+              "Ref": "AWS::Partition"
+             },
+             ":ec2:",
+             {
+              "Ref": "AWS::Region"
+             },
+             ":",
+             {
+              "Ref": "AWS::AccountId"
+             },
+             ":security-group/",
+             {
+              "Fn::GetAtt": [
+               "IRMarkVpc24F6BDC1",
+               "DefaultSecurityGroup"
+              ]
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "__entrypoint__.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+   },
+   "DependsOn": [
+    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+    "aws:asset:property": "Code"
+   }
+  },
+  "IRMarkCluster9723BDD7": {
+   "Type": "AWS::ECS::Cluster",
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkCluster/Resource"
+   }
+  },
+  "IRMarkTaskDefinitionTaskRole8801E14B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkTaskDefinition/TaskRole/Resource"
+   }
+  },
+  "IRMarkTaskDefinition7479C50B": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Essential": true,
+      "Image": {
+       "Fn::Sub": "${AWS::AccountId}.dkr.ecr.${AWS::Region}.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}:d7c4e3612ac8f1030ef0d1690a0cb70276ae714712875ec0eec9c04379db44fb"
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "IRMarkTaskDefinitionAppContainerLogGroup572557D5"
+        },
+        "awslogs-stream-prefix": "SpringBoot",
+        "awslogs-region": {
+         "Ref": "AWS::Region"
+        }
+       }
+      },
+      "Name": "AppContainer",
+      "PortMappings": [
+       {
+        "ContainerPort": 8080,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "1024",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "IRMarkTaskDefinitionExecutionRoleFD6741C3",
+      "Arn"
+     ]
+    },
+    "Family": "IRMarkStackIRMarkTaskDefinition5763B077",
+    "Memory": "2048",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "IRMarkTaskDefinitionTaskRole8801E14B",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkTaskDefinition/Resource"
+   }
+  },
+  "IRMarkTaskDefinitionAppContainerLogGroup572557D5": {
+   "Type": "AWS::Logs::LogGroup",
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkTaskDefinition/AppContainer/LogGroup/Resource"
+   }
+  },
+  "IRMarkTaskDefinitionExecutionRoleFD6741C3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkTaskDefinition/ExecutionRole/Resource"
+   }
+  },
+  "IRMarkTaskDefinitionExecutionRoleDefaultPolicy24E48FFD": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":ecr:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":repository/",
+          {
+           "Fn::Sub": "cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}"
+          }
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "IRMarkTaskDefinitionAppContainerLogGroup572557D5",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "IRMarkTaskDefinitionExecutionRoleDefaultPolicy24E48FFD",
+    "Roles": [
+     {
+      "Ref": "IRMarkTaskDefinitionExecutionRoleFD6741C3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/IRMarkTaskDefinition/ExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "FargateServiceAC2B3B85": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "IRMarkCluster9723BDD7"
+    },
+    "DeploymentConfiguration": {
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "LaunchType": "FARGATE",
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "ENABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "FargateServiceSecurityGroup0A0E79CB",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       {
+        "Ref": "IRMarkVpcPublicSubnet1Subnet71AD6300"
+       },
+       {
+        "Ref": "IRMarkVpcPublicSubnet2Subnet3BE652CB"
+       }
+      ]
+     }
+    },
+    "TaskDefinition": {
+     "Ref": "IRMarkTaskDefinition7479C50B"
+    }
+   },
+   "DependsOn": [
+    "IRMarkTaskDefinitionTaskRole8801E14B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/FargateService/Service"
+   }
+  },
+  "FargateServiceSecurityGroup0A0E79CB": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "IRMarkStack/FargateService/SecurityGroup",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow inbound traffic on the application port",
+      "FromPort": 8080,
+      "IpProtocol": "tcp",
+      "ToPort": 8080
+     }
+    ],
+    "VpcId": {
+     "Ref": "IRMarkVpc24F6BDC1"
+    }
+   },
+   "DependsOn": [
+    "IRMarkTaskDefinitionTaskRole8801E14B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/FargateService/SecurityGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/81UTW/bMAz9LdVxUL02wHrILU23wkPRBknRw4ygYGTW5SJLnj7cZUb++yDJ+WiLFsO2Qw6GpUeRfBIfOcgGp5+ykyN4sseiXB5LWmTdzIFYcniy9x2KQdbdNaLoWA0/R78sG7IPbD3n4wd1NxnziV9IEjO/UOiKjkELJGFBktzqm1YYT3PWNiIv+7Wg0pxLLZb9voYmBcmbG3UFXolHNnTGI2fUtGfjF8fBWqpU3rRno7I0aO2NGhsER1olavxAWEQiZXkN7hIcPsGKDQv2gc0PhuBhsHjzmaLEkrDCaqq9w1tYSNzhO2xkrRYUA28Ph8XnfBJ+u+h8YqgFh/9dsQ8g7QHU4t9oHA6TA6GRVJgrh0bhVkNp9vW7kXMgHmtUjs9QeENudWm0b4oukN3dpyxzVYUsUy+RDYuOCVC5kqQwIamNhFYKReBge5pe0Q+P/a1jkQIc77Xpkv28a47CZt1YeuvQ7LOIZ3ucfwFTQegeu7zAB1IUUhYx4fMvej0/xsdaOSCFZg/rA87QtCSw2Hj2+zUnqLNuqiWGprPW11ier9iwY40hJagBORJCe+V21fE1BoeR2JUkPuVfe3NmtMRrqHG/Lrd6sgky0ZJEGEHdOg3qWNxUpa1tO8XfNb4f923rPA0wiTzBsSabZLc6WF5xeA2X5cyBwyBL+yztn8KRRmIQFGXuwVp0NrvQYokmr6EKQxddsGVTbLQlp83qHCwWcy51ZbPuSlebVjDoUO0KEaNvzOs1n6LV3iTZ9KLz1ul6H08P0wMv7BOjWyrRhPQ88po5qEhVwefGu8a7Nf8KLXwcnGYn2dnRd0t0bLxyVGM2Tf/fX4C+fAwJAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "IRMarkStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "TaskAccessNote": {
+   "Value": "Access is via the task's public IP on port 8080. The IP changes when the task restarts. You must check the ECS Console to get the current IP."
+  },
+  "SecurityGroup": {
+   "Value": {
+    "Fn::GetAtt": [
+     "FargateServiceSecurityGroup0A0E79CB",
+     "GroupId"
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

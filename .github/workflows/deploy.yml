@@ -1,0 +1,69 @@
+name: Java CDK Fargate Deployment
+
+on:
+  push:
+    branches:
+      - main # Trigger on push to the main branch
+  workflow_dispatch: # Allows manual running from the GitHub UI
+
+env:
+  # 🎯 Configuration Variables - UPDATE THESE
+  AWS_REGION: ap-south-1                 # The AWS region for deployment
+  AWS_IAM_ROLE_ARN: arn:aws:iam::123456789012:role/GitHubActionsDeployRole # ARN of the IAM role for OIDC
+  CDK_STACK_NAME: IRMarkStack             # The name of the stack class in your Java code
+  JAVA_VERSION: '17'                      # Must match the JDK version required by your project
+  MAVEN_CACHE_KEY: ${{ hashFiles('**/pom.xml') }} # Key for Maven dependency caching
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for secure OIDC authentication
+      contents: read # Required to checkout the code
+    
+    steps:
+      - name: 📦 Checkout Code
+        uses: actions/checkout@v4
+
+      # --- Build and Setup Environment ---
+
+      - name: ☕ Set up Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+          # Caches Maven dependencies for faster subsequent builds
+          cache: 'maven'
+          cache-dependency-path: '**/pom.xml' 
+
+      - name: 🐳 Set up Docker Buildx for performance
+        # Required for efficient Docker builds and caching
+        uses: docker/setup-buildx-action@v3
+
+      - name: ⚙️ Install CDK CLI and Node.js Dependencies
+        # CDK itself is a Node.js tool, so Node and NPM are required
+        run: |
+          npm install -g aws-cdk
+          npm install
+
+      - name: 🏗️ Build Java Project with Maven
+        # This compiles your Java code and prepares the CDK app
+        run: mvn package
+
+      # --- AWS Authentication and Deploy ---
+      
+      - name: 🔑 Configure AWS Credentials (OIDC Role Assumption)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          
+      - name: 🚀 CDK Deploy
+        # The 'cdk deploy' command handles all deployment steps automatically:
+        # 1. Runs the Java CDK app (using the 'app' command in cdk.json).
+        # 2. Builds the Docker image asset ("paycaptain-ir-mark-calculator").
+        # 3. Pushes the image to a unique ECR repository created by the CDK.
+        # 4. Synthesizes the CloudFormation template.
+        # 5. Deploys the stack, updating the Fargate Service.
+        run: |
+          cdk deploy ${{ env.CDK_STACK_NAME }} --require-approval never
