@@ -60,10 +60,10 @@ jobs:
           
       - name: 🚀 CDK Deploy
         # The 'cdk deploy' command handles all deployment steps automatically:
-        # 1. Runs the Java CDK app (using the 'app' command in cdk.json).
-        # 2. Builds the Docker image asset ("paycaptain-ir-mark-calculator").
-        # 3. Pushes the image to a unique ECR repository created by the CDK.
-        # 4. Synthesizes the CloudFormation template.
-        # 5. Deploys the stack, updating the Fargate Service.
+        # 1. Runs the Java CDK app (using the 'app' command in cdk.json)
+        # 2. Builds the Docker image asset ("paycaptain-ir-mark-calculator")
+        # 3. Pushes the image to a unique ECR repository created by the CDK
+        # 4. Synthesizes the CloudFormation template
+        # 5. Deploys the stack, updating the Fargate Service
         run: |
           cdk deploy ${{ env.CDK_STACK_NAME }} --require-approval never

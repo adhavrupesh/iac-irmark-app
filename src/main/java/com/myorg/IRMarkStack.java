@@ -63,7 +63,7 @@ public class IRMarkStack extends Stack {
                 .cluster(cluster)
                 .taskDefinition(taskDef)
                 .desiredCount(1)
-                .assignPublicIp(true) // <-- ADD THIS LINE
+                .assignPublicIp(true) 
                 .build();
 
         // 5. Update Security Group 🚨
