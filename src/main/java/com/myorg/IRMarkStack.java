@@ -3,12 +3,7 @@ package com.myorg;
 import software.constructs.Construct;
 import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.ec2.Vpc;
-import software.amazon.awscdk.services.elasticloadbalancingv2.AddApplicationTargetsProps;
-import software.amazon.awscdk.services.elasticloadbalancingv2.ApplicationListener;
-import software.amazon.awscdk.services.elasticloadbalancingv2.ApplicationLoadBalancer;
-import software.amazon.awscdk.services.elasticloadbalancingv2.BaseApplicationListenerProps;
 import software.amazon.awscdk.services.ecs.*;
-import software.amazon.awscdk.services.elasticloadbalancingv2.HealthCheck;
 
 public class IRMarkStack extends Stack {
     // ... (Constructors remain the same) ...
