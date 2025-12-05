@@ -9,7 +9,7 @@ on:
 env:
   # 🎯 Configuration Variables - UPDATE THESE
   AWS_REGION: ap-south-1                 # The AWS region for deployment
-  AWS_IAM_ROLE_ARN: arn:aws:iam::123456789012:role/GitHubActionsDeployRole # ARN of the IAM role for OIDC
+  AWS_IAM_ROLE_ARN: arn:aws:iam::235494813059:role/GitHub-CDK-IRMark-DeployRole # ARN of the IAM role for OIDC
   CDK_STACK_NAME: IRMarkStack             # The name of the stack class in your Java code
   JAVA_VERSION: '17'                      # Must match the JDK version required by your project
 
@@ -64,5 +64,7 @@ jobs:
         # 3. Pushes the image to a unique ECR repository created by the CDK
         # 4. Synthesizes the CloudFormation template
         # 5. Deploys the stack, updating the Fargate Service
+        env:
+          DOCKER_BUILDKIT: 1 # Explicitly enable BuildKit
         run: |
           cdk deploy ${{ env.CDK_STACK_NAME }} --require-approval never
