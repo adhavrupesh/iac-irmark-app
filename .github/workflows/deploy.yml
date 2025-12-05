@@ -12,7 +12,6 @@ env:
   AWS_IAM_ROLE_ARN: arn:aws:iam::123456789012:role/GitHubActionsDeployRole # ARN of the IAM role for OIDC
   CDK_STACK_NAME: IRMarkStack             # The name of the stack class in your Java code
   JAVA_VERSION: '17'                      # Must match the JDK version required by your project
-  MAVEN_CACHE_KEY: ${{ hashFiles('**/pom.xml') }} # Key for Maven dependency caching
 
 jobs:
   deploy:
@@ -24,12 +23,6 @@ jobs:
     steps:
       - name: 📦 Checkout Code
         uses: actions/checkout@v4
-
-      # --- NEW STEP TO CALCULATE CACHE KEY ---
-      - name: Calculate Maven Cache Key
-        id: cache-key-step # Assign an ID to reference its output
-        run: echo "MAVEN_KEY=$(echo ${{ hashFiles('**/pom.xml') }} | xargs)" >> $GITHUB_OUTPUT 
-      # --------------------------------------
 
       # --- Build and Setup Environment ---
 
