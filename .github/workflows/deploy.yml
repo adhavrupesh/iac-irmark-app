@@ -43,7 +43,6 @@ jobs:
         # CDK itself is a Node.js tool, so Node and NPM are required
         run: |
           npm install -g aws-cdk
-          npm install
 
       - name: 🏗️ Build Java Project with Maven
         # This compiles your Java code and prepares the CDK app
