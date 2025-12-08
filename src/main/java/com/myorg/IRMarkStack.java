@@ -24,7 +24,7 @@ public class IRMarkStack extends Stack {
         // The path is relative to the CDK project root.
         // CDK will find the Dockerfile in this directory, build the image, and push to a temporary ECR repo.
         ContainerImage appImage = ContainerImage.fromAsset(
-            "../paycaptain-ir-mark-calculator" // <-- Correct path to the folder containing Dockerfile
+            "../../paycaptain-ir-mark-calculator" // <-- Correct path to the folder containing Dockerfile
         );
         
         // 3. Fargate Task Definition
