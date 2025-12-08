@@ -20,11 +20,19 @@ public class IRMarkStack extends Stack {
                 .vpc(vpc)
                 .build();
 
+        // Get the absolute path from the environment variable set in GitHub Actions
+        String dockerContextPath = System.getenv("APP_DOCKER_CONTEXT");
+
+        // Fallback to a relative path for local testing
+        if (dockerContextPath == null) {
+        dockerContextPath = "paycaptain-ir-mark-calculator"; 
+        }
+
         // 2. BUILD DOCKER IMAGE FROM LOCAL ASSET
         // The path is relative to the CDK project root.
         // CDK will find the Dockerfile in this directory, build the image, and push to a temporary ECR repo.
         ContainerImage appImage = ContainerImage.fromAsset(
-            "../../paycaptain-ir-mark-calculator" // <-- Correct path to the folder containing Dockerfile
+            dockerContextPath // <-- Correct path to the folder containing Dockerfile
         );
         
         // 3. Fargate Task Definition
