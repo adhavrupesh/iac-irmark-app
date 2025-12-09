@@ -66,6 +66,6 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1 # Explicitly enable BuildKit
           # 🚨 Pass the absolute path to the Docker context directory
-          APP_DOCKER_CONTEXT: ${{ github.workspace }}/paycaptain-ir-mark-calculator
+          APP_DOCKER_CONTEXT: paycaptain-ir-mark-calculator
         run: |
           cdk deploy ${{ env.CDK_STACK_NAME }} --require-approval never
