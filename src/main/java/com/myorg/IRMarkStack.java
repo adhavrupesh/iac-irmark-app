@@ -25,7 +25,7 @@ public class IRMarkStack extends Stack {
 
         // Fallback to a relative path for local testing
         if (dockerContextPath == null) {
-                dockerContextPath = "paycaptain-ir-mark-calculator"; 
+                dockerContextPath = "../paycaptain-ir-mark-calculator"; 
         }
 
         // 2. BUILD DOCKER IMAGE FROM LOCAL ASSET
