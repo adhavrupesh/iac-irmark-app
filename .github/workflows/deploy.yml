@@ -40,7 +40,6 @@ jobs:
       # --------------------------------------------------
       - name: 🛠️ Build Spring Boot Application
         run: |
-          cd app
           mvn clean package -DskipTests
 
       # --------------------------------------------------
