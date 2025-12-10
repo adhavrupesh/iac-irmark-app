@@ -1,0 +1,77 @@
+name: Java CDK Fargate Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  AWS_REGION: ap-south-1
+  AWS_IAM_ROLE_ARN: arn:aws:iam::235494813059:role/GitHub-CDK-IRMark-DeployRole
+  CDK_STACK_NAME: IRMarkStack
+  JAVA_VERSION: '17'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: 📦 Checkout Code
+        uses: actions/checkout@v4
+
+      # --------------------------------------------------
+      # Setup Java
+      # --------------------------------------------------
+      - name: ☕ Set up Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: 'maven'
+          cache-dependency-path: '**/pom.xml'
+
+      # --------------------------------------------------
+      # Build Spring Boot App (inside /app)
+      # --------------------------------------------------
+      - name: 🛠️ Build Spring Boot Application
+        run: |
+          cd app
+          mvn clean package -DskipTests
+
+      # --------------------------------------------------
+      # Install CDK CLI
+      # --------------------------------------------------
+      - name: ⚙️ Install AWS CDK CLI
+        run: npm install -g aws-cdk
+
+      # --------------------------------------------------
+      # Build CDK project (inside /cdk)
+      # --------------------------------------------------
+      - name: 🏗️ Build CDK Java Project
+        run: |
+          cd cdk
+          mvn clean package
+
+      # --------------------------------------------------
+      # Authenticate to AWS using OIDC
+      # --------------------------------------------------
+      - name: 🔑 Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # --------------------------------------------------
+      # Deploy CDK Stack
+      # --------------------------------------------------
+      - name: 🚀 Deploy CDK Stack
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          cd cdk
+          cdk deploy ${{ env.CDK_STACK_NAME }} --require-approval never
