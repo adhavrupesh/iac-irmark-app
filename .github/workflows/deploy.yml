@@ -63,9 +63,5 @@ jobs:
         # 3. Pushes the image to a unique ECR repository created by the CDK
         # 4. Synthesizes the CloudFormation template
         # 5. Deploys the stack, updating the Fargate Service
-        env:
-          DOCKER_BUILDKIT: 1 # Explicitly enable BuildKit
-          # 🚨 Pass the absolute path to the Docker context directory
-          APP_DOCKER_CONTEXT: ../paycaptain-ir-mark-calculator
         run: |
           cdk deploy ${{ env.CDK_STACK_NAME }} --require-approval never
